@@ -21,7 +21,7 @@ dotenv.config({ path: '.env' });
 
 // view mongoose setup connection
 var mongoose = require('mongoose');
-var dev_db_url = 'mongodb+srv://rajeshwari:mynewpassword@cluster0-mbdj7.mongodb.net/local_library?retryWrites=true'
+var dev_db_url = process.env.ATLAS_URI
 var mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
