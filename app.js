@@ -11,7 +11,12 @@ var catalogRouter = require('./routes/catalog');  //Import routes for "catalog" 
 var compression = require('compression');
 var helmet = require('helmet'); 
 
+//const dotenv = require('dotenv');
+
 var app = express();
+
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env' });
 
 
 // view mongoose setup connection
