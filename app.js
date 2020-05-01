@@ -4,35 +4,24 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');  //Import routes for "catalog" area of site
 
 var compression = require('compression');
-var helmet = require('helmet'); 
-
-//const dotenv = require('dotenv');
+var helmet = require('helmet');
 
 var app = express();
 
-const dotenv = require('dotenv');
-dotenv.config({ path: '.env' });
 
-const mongodb = require("mongoose");
-mongodb.connect(process.env.ATLAS_URI, {useNewUrlParser: true, useUnifiedTopology: true});
-const db = mongodb.connection;
-db.on("error", console.error.bind(console, 'could not connect to mongo'));
-
-
-// view mongoose setup connection
-//var mongoose = require('mongoose');
-//var dev_db_url = process.env.ATLAS_URI;
-//var mongoDB = process.env.MONGODB_URI || dev_db_url;
-//mongoose.connect(mongoDB, { useNewUrlParser: true });
-//mongoose.Promise = global.Promise;
-//var db = mongoose.connection;
-//db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// Set up mongoose connection
+var mongoose = require('mongoose');
+var dev_db_url = 'mongodb+srv://cooluser:coolpassword@cluster0-mbdj7.mongodb.net/local_library?retryWrites=true'
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
+mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 // view engine setup
@@ -50,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/catalog', catalogRouter);  // Add catalog routes to middleware chain
+app.use('/catalog', catalogRouter);  // Add catalog routes to middleware chain.
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -69,5 +58,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-app.listen(3002, ()=>{console.log("running now.");});
-
