@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');  //Import routes for "catalog" area of site
@@ -18,15 +19,20 @@ var app = express();
 const dotenv = require('dotenv');
 dotenv.config({ path: '.env' });
 
+const mongodb = require("mongoose");
+mongodb.connect(process.env.ATLAS_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+const db = mongodb.connection;
+db.on("error", console.error.bind(console, 'could not connect to mongo'));
+
 
 // view mongoose setup connection
-var mongoose = require('mongoose');
-var dev_db_url = process.env.ATLAS_URI;
-var mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB, { useNewUrlParser: true });
-mongoose.Promise = global.Promise;
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+//var mongoose = require('mongoose');
+//var dev_db_url = process.env.ATLAS_URI;
+//var mongoDB = process.env.MONGODB_URI || dev_db_url;
+//mongoose.connect(mongoDB, { useNewUrlParser: true });
+//mongoose.Promise = global.Promise;
+//var db = mongoose.connection;
+//db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 // view engine setup
